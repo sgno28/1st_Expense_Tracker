@@ -52,7 +52,8 @@ const ExpenseForm = (props) => {
       amount: enteredAmount,
       date: new Date(enteredDate),
     };
-    // Accesses the function from new expense
+
+    // Accesses the function from NewExpense
     // To pass data up to the parent component
     // Using props and passing a function as a prop
     props.onFormSubmit(expenseData);
