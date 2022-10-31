@@ -8,6 +8,7 @@ const NewExpense = (props) => {
     // Fetching data from Expense Form
     const expenseData = {
       ...enteredExpenseData,
+      // Give random id number
       id: Math.random().toString()
     };
 
