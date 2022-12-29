@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./ExpenseForm.css";
+import axios from "axios";
+import { api } from "../services/api";
+import { v4 as uuidv4 } from "uuid";
 
 const ExpenseForm = (props) => {
   // Set States
@@ -42,7 +45,7 @@ const ExpenseForm = (props) => {
     // })
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     // On form onclick, default behaviour is to refresh page
     event.preventDefault();
 
@@ -52,7 +55,11 @@ const ExpenseForm = (props) => {
       amount: enteredAmount,
       date: new Date(enteredDate),
     };
-
+    const id = uuidv4();
+    // add the data to the database
+    //make a post request
+    const addToDB = await postNote(id, expenseData);
+    console.log(addToDB);
     // Accesses the function from NewExpense
     // To pass data up to the parent component
     // Using props and passing a function as a prop
@@ -96,11 +103,23 @@ const ExpenseForm = (props) => {
         </div>
       </div>
       <div className="new-expense__actions">
-        <button type="button" onClick={props.onCancel}>Cancel</button>
+        <button type="button" onClick={props.onCancel}>
+          Cancel
+        </button>
         <button type="submit">Add Expense</button>
       </div>
     </form>
   );
 };
+
+// SST integration: api interaction to push data
+async function postNote(id, expenseData) {
+  try {
+    const response = await axios.post(`${api}/notes/${id}`, expenseData);
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export default ExpenseForm;
